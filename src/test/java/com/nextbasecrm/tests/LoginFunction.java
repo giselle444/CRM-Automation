@@ -6,6 +6,7 @@ import com.nextbasecrm.utilities.WebDriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,7 +26,7 @@ WebDriver driver;
     public void setUp() {
        driver= WebDriverFactory.getDriver(ConfigurationReader.getProperty("browser"));
        driver.manage().window().maximize();
-       driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+       driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         //1-go to login page
        driver.get(ConfigurationReader.getProperty("env"));
 
@@ -49,6 +50,11 @@ WebDriver driver;
         WebElement loginBtn= driver.findElement(By.xpath("//input[@type='submit']"));
         BrowserUtilities.sleep(3);
         loginBtn.click();
+
+        //5.Verify Title
+        String expectedTitle="Portal";
+        String actualTitle= driver.getTitle();
+        Assert.assertEquals(actualTitle,expectedTitle);
 
 
 
