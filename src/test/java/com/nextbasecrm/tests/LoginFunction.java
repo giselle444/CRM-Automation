@@ -37,6 +37,7 @@ WebDriver driver;
         BrowserUtilities.sleep(3);
         driver.close();
     }
+    //positive scenario
     @Test
     public void login_with_valid_credentials_with_login_btn(){
         //2-write username
@@ -56,7 +57,30 @@ WebDriver driver;
         String actualTitle= driver.getTitle();
         Assert.assertEquals(actualTitle,expectedTitle);
 
+    }
 
+    //negative scenario
+    //valid username, invalid password
+    @Test
+    public void login_with_valid_Username_invalid_password_with_login_btn(){
+        //2-write valid username
+        WebElement username= driver.findElement(By.xpath("(//input[@class='login-inp'])[1]"));
+        username.sendKeys(ConfigurationReader.getProperty("username"));
+        //3-write invalid password
+        WebElement password= driver.findElement(By.xpath("(//input[@class='login-inp'])[2]"));
+        password.sendKeys("abcd");
+
+        //4-click login btn
+        WebElement loginBtn= driver.findElement(By.xpath("//input[@type='submit']"));
+        BrowserUtilities.sleep(3);
+        loginBtn.click();
+
+        //5.Verify error message
+        String expectedErrorMessage="Incorrect login or password";
+       String actualErrorMessage= driver.findElement(By.xpath("//div[@class=\"errortext\"]")).getText();
+
+        Assert.assertEquals(actualErrorMessage,expectedErrorMessage);
 
     }
+
 }
